@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Politeh</string>
+    <string name="welcome_to">Welcome to</string>
+    <string name="politeh">Politeh</string>
+    <string name="type_your_group">Type your group</string>
 </resources>
