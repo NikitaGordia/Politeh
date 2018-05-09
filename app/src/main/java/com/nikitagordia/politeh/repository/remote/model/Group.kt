@@ -1,4 +1,4 @@
-package com.nikitagordia.politeh.module.group.model
+package com.nikitagordia.politeh.repository.remote.model
 
 /**
  * Created by maxim on 2/12/18.
@@ -26,5 +26,4 @@ class Group {
     @SerializedName("group_url")
     @Expose
     var groupUrl: String? = null
-
 }
