@@ -1,24 +1,37 @@
 package com.nikitagordia.politeh.module.group.presenter
 
-import com.nikitagordia.politeh.module.group.view.GroupViewInterface
-import com.nikitagordia.politeh.repository.remote.SubscriberInterface
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
+import com.nikitagordia.politeh.module.group.model.data.Group
+import com.nikitagordia.politeh.module.group.model.repository.SourceGroupInterface
+import com.nikitagordia.politeh.module.group.model.repository.SubscriberGroupInterface
 import com.nikitagordia.politeh.repository.remote.apirozkladorgua.RetrofitImpl
-import com.nikitagordia.politeh.repository.remote.model.Group
 
 /**
  * Created by nikitagordia on 5/9/18.
  */
 
-class GroupPresenter : GroupPresenterInterface, SubscriberInterface {
+class GroupPresenter : SubscriberGroupInterface, GroupPresenterInterface, ViewModel() {
 
-    var view: GroupViewInterface? = null
+    override val groups = MutableLiveData<MetaLiveGroup>()
 
-    override fun attach(child: GroupViewInterface) {
-        view = child
-        RetrofitImpl.subscribeOnGroup(this)
+    private val source: SourceGroupInterface = RetrofitImpl
+
+    private var loadingStarted: Boolean = false
+
+    override fun updateData() {
+        if (!loadingStarted) {
+            loadingStarted = true
+            source.subscribeOnGroup(this)
+        }
     }
 
-    override fun onDataGroup(list: List<Group>) {
-        view?.onDataGroup(list)
+    override fun onDataGroup(list: List<Group>, percent: Int) {
+        val all = groups.value?.all ?: mutableListOf()
+        all.addAll(list)
+        val res = groups.value ?: MetaLiveGroup(all, list, percent)
+        res.intermediate = list
+        res.percent = percent
+        groups.value = res
     }
 }

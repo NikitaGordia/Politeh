@@ -1,4 +1,4 @@
-package com.nikitagordia.politeh.repository.remote.apirozkladorgua
+package com.nikitagordia.politeh.repository.remote.apirozkladorgua.model
 
 import com.nikitagordia.politeh.repository.remote.apirozkladorgua.model.GroupResponse
 import retrofit2.Call

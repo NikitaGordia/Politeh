@@ -8,30 +8,34 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.nikitagordia.politeh.R
-import com.nikitagordia.politeh.repository.remote.model.Group
+import com.nikitagordia.politeh.module.group.model.data.Group
 import com.nikitagordia.politeh.util.HashColor
-import kotlinx.android.synthetic.main.activity_group.view.*
 
 class GroupAdapter(private val cont : Context) : RecyclerView.Adapter<GroupAdapter.GroupHolder>(){
 
-    private val list = mutableListOf<Group>()
+    val list: MutableList<Group> = mutableListOf()
     private var filter = mutableListOf<Group>()
 
     var query: String = ""
 
     fun add(nw: List<Group>) {
+        val sz = list.size
         list.addAll(nw)
         refreshFilter()
+        notifyItemRangeInserted(sz, nw.size)
     }
 
     private fun refreshFilter() {
         filter.clear()
         for (i in list) if (valid(i.groupFullName)) filter.add(i)
         filter.sortWith(object : Comparator<Group> {
+
+            var s1 = ""
+            var s2 = ""
+
             override fun compare(p0: Group?, p1: Group?): Int {
-                val s1 = p0?.groupFullName
-                val s2 = p1?.groupFullName
-                if (s1 == null || s2 == null) return -1
+                s1 = p0?.groupFullName ?: return -1
+                s2 = p1?.groupFullName ?: return -1
                 if (s1.first().isDigit() && s2.first().isDigit()) return s1.first().compareTo(s2.first())
                 if (s1.first().isDigit()) return 1
                 if (s2.first().isDigit()) return -1

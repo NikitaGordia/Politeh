@@ -1,12 +1,17 @@
 package com.nikitagordia.politeh.module.group.presenter
 
-import com.nikitagordia.politeh.module.group.view.GroupViewInterface
+import android.arch.lifecycle.MutableLiveData
+import com.nikitagordia.politeh.module.group.model.data.Group
 
 /**
- * Created by nikitagordia on 5/9/18.
+ * Created by nikitagordia on 5/10/18.
  */
 
 interface GroupPresenterInterface {
 
-    fun attach(child: GroupViewInterface)
+    val groups: MutableLiveData<MetaLiveGroup>
+
+    fun updateData()
 }
+
+class MetaLiveGroup(val all: MutableList<Group>, var intermediate: List<Group>, var percent: Int)

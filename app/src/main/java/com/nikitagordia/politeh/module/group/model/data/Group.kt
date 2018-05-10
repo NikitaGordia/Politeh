@@ -1,4 +1,4 @@
-package com.nikitagordia.politeh.repository.remote.model
+package com.nikitagordia.politeh.module.group.model.data
 
 /**
  * Created by maxim on 2/12/18.
