@@ -3,4 +3,9 @@
     <string name="welcome_to">Welcome to</string>
     <string name="politeh">Politeh</string>
     <string name="type_your_group">Type your group</string>
+
+    <string name="connection_error">Connection error</string>
+    <string name="retry">Retry</string>
+    <string name="done">Done</string>
+    <string name="selected">Group %1$s was selected</string>
 </resources>

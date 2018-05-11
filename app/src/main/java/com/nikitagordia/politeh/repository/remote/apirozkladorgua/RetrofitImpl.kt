@@ -6,6 +6,7 @@ import com.nikitagordia.politeh.module.group.model.repository.SubscriberGroupInt
 import com.nikitagordia.politeh.repository.remote.apirozkladorgua.model.GroupResponse
 import com.nikitagordia.politeh.repository.remote.apirozkladorgua.model.GroupService
 import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
@@ -31,10 +32,12 @@ object RetrofitImpl : SourceGroupInterface {
     val groupService = retrofit.create(GroupService::class.java)
 
     var subscriber: SubscriberGroupInterface? = null
+    var job: Job? = null
 
     override fun subscribeOnGroup(sub: SubscriberGroupInterface) {
         subscriber = sub
-        launch (CommonPool) {
+        if (job?.isActive ?: false) job?.cancel()
+        job = launch (CommonPool) {
             try {
                 var resp = groupService.getGroups(createInterval(GROUP_PACKAGE_LIMIT, 0)).execute().body()
                 resp?.meta?.limit = GROUP_PACKAGE_LIMIT
@@ -49,20 +52,25 @@ object RetrofitImpl : SourceGroupInterface {
                     send(resp, offset, all)
                 }
             } catch (e: IOException) {
-                return@launch
+                send(null, -1, -1)
             }
         }
     }
 
     fun send(resp: GroupResponse?, offset: Int, all: Int) {
-        val percent = if (offset > all) 100 else ((offset.toFloat() / all.toFloat()) * 100F).toInt()
         async(UI) {
-            resp?.data?.apply {  subscriber?.onDataGroup(this, percent) }
+            resp?.data?.apply {
+                val percent = if (offset > all) 100 else ((offset.toFloat() / all.toFloat()) * 100F).toInt()
+                subscriber?.onDataGroup(this, percent)
+            } ?: subscriber?.onDataGroup(listOf(), -1)
         }
     }
 
     override fun cancel(sub: SubscriberGroupInterface) {
-        if (sub == subscriber) subscriber = null
+        if (sub == subscriber) {
+            subscriber = null
+            if (job?.isActive ?: false) job?.cancel()
+        }
     }
 }
 

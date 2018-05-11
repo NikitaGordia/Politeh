@@ -19,14 +19,25 @@ class GroupPresenter : SubscriberGroupInterface, GroupPresenterInterface, ViewMo
 
     private var loadingStarted: Boolean = false
 
-    override fun updateData() {
-        if (!loadingStarted) {
-            loadingStarted = true
+    override fun updateData(force: Boolean) {
+        if (force) {
+            if (loadingStarted) source.cancel(this)
+            groups.value = MetaLiveGroup(mutableListOf(), listOf(), 0)
             source.subscribeOnGroup(this)
+            loadingStarted = true
+        } else {
+            if (!loadingStarted) {
+                loadingStarted = true
+                source.subscribeOnGroup(this)
+            }
         }
     }
 
     override fun onDataGroup(list: List<Group>, percent: Int) {
+        if (percent == -1) {
+            groups.value = MetaLiveGroup(mutableListOf(), list, -1)
+            return
+        }
         val all = groups.value?.all ?: mutableListOf()
         all.addAll(list)
         val res = groups.value ?: MetaLiveGroup(all, list, percent)

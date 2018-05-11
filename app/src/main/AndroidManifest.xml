@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".module.group.view.GroupActivity"
-            android:windowSoftInputMode="adjustPan">
+            android:theme="@style/Group">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

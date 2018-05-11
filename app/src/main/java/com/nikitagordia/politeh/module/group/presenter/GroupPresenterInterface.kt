@@ -11,7 +11,7 @@ interface GroupPresenterInterface {
 
     val groups: MutableLiveData<MetaLiveGroup>
 
-    fun updateData()
+    fun updateData(force: Boolean)
 }
 
 class MetaLiveGroup(val all: MutableList<Group>, var intermediate: List<Group>, var percent: Int)
