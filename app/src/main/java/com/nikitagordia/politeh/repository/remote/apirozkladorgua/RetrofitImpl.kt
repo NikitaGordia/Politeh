@@ -13,26 +13,21 @@ import kotlinx.coroutines.experimental.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
-import java.util.LinkedHashMap
-
-/**
- * Created by nikitagordia on 5/9/18.
- */
 
 object RetrofitImpl : SourceGroupInterface {
 
-    val MAIN_URL = "https://api.rozklad.org.ua/"
-    val GROUP_PACKAGE_LIMIT = 100
+    private const val MAIN_URL = "https://api.rozklad.org.ua/"
+    private const val GROUP_PACKAGE_LIMIT = 100
 
-    val retrofit = Retrofit.Builder()
+    private val retrofit = Retrofit.Builder()
             .baseUrl(MAIN_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-    val groupService = retrofit.create(GroupService::class.java)
+    private val groupService = retrofit.create(GroupService::class.java)
 
-    var subscriber: SubscriberGroupInterface? = null
-    var job: Job? = null
+    private var subscriber: SubscriberGroupInterface? = null
+    private var job: Job? = null
 
     override fun subscribeOnGroup(sub: SubscriberGroupInterface) {
         subscriber = sub
@@ -57,7 +52,7 @@ object RetrofitImpl : SourceGroupInterface {
         }
     }
 
-    fun send(resp: GroupResponse?, offset: Int, all: Int) {
+    private fun send(resp: GroupResponse?, offset: Int, all: Int) {
         async(UI) {
             resp?.data?.apply {
                 val percent = if (offset > all) 100 else ((offset.toFloat() / all.toFloat()) * 100F).toInt()

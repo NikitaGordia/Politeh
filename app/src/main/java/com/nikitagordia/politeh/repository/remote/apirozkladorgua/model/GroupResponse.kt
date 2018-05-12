@@ -4,10 +4,6 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.nikitagordia.politeh.module.group.model.data.Group
 
-/**
- * Created by nikitagordia on 2/13/18.
- */
-
 class GroupResponse {
 
     @SerializedName("statusCode")

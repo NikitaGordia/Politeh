@@ -1,8 +1,5 @@
 package com.nikitagordia.politeh.module.group.model.data
 
-/**
- * Created by maxim on 2/12/18.
- */
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 

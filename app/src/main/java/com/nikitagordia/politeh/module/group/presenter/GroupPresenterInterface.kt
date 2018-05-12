@@ -3,10 +3,6 @@ package com.nikitagordia.politeh.module.group.presenter
 import android.arch.lifecycle.MutableLiveData
 import com.nikitagordia.politeh.module.group.model.data.Group
 
-/**
- * Created by nikitagordia on 5/10/18.
- */
-
 interface GroupPresenterInterface {
 
     val groups: MutableLiveData<MetaLiveGroup>

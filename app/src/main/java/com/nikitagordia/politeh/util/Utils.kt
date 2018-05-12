@@ -1,9 +1,5 @@
 package com.nikitagordia.politeh.util
 
-/**
- * Created by nikitagordia on 5/9/18.
- */
-
 fun flex(str: String): String {
     val res = StringBuilder("")
     str.forEach { res.append(flex(it)) }

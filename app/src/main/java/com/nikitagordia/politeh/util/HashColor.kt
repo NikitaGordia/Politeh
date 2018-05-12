@@ -8,12 +8,12 @@ import android.graphics.drawable.shapes.RoundRectShape
 
 object HashColor{
 
-    val KEY_RED = 31L
-    val KEY_GREEN = 83L
-    val KEY_BLUE = 51L
-    val MOD : Long = 1000_000_000 + 7
+    private const val KEY_RED = 31L
+    private const val KEY_GREEN = 83L
+    private const val KEY_BLUE = 51L
+    private const val MOD : Long = 1000_000_000 + 7
 
-    fun hash(s : String, type : Char) : Int {
+    private fun hash(s : String, type : Char) : Int {
         var res = 0L
         var power = 1L
         for (i in s) {
@@ -26,12 +26,6 @@ object HashColor{
         }
         return res.toInt() % 200
     }
-
-    fun getColor(s : String) = Color.rgb(
-            hash(s, 'r'),
-            hash(s, 'g'),
-            hash(s, 'b')
-    )
 
     fun getShapeDrawable(s : String) : ShapeDrawable {
         val result = ShapeDrawable()

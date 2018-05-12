@@ -10,7 +10,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import com.nikitagordia.politeh.R
@@ -19,13 +18,13 @@ import com.nikitagordia.politeh.util.HashColor
 
 class GroupAdapter(private val cont : Context, private val coordinator: CoordinatorLayout, private val resources: Resources) : RecyclerView.Adapter<GroupAdapter.GroupHolder>(){
 
-    val EXTRA_SELECTED_ID = "com.nikitagordia.politeh.module.group.view.list.GroupAdapter.selectedId"
-    val EXTRA_SELECTED_NAME = "com.nikitagordia.politeh.module.group.view.list.GroupAdapter.selectedName"
+    private val EXTRA_SELECTED_ID = "com.nikitagordia.politeh.module.group.view.list.GroupAdapter.selectedId"
+    private val EXTRA_SELECTED_NAME = "com.nikitagordia.politeh.module.group.view.list.GroupAdapter.selectedName"
 
     val list: MutableList<Group> = mutableListOf()
     private var filter = mutableListOf<Group>()
 
-    var query = ""
+    private var query = ""
     private var selectedId = -1
     private var selectedPos = -1
 
@@ -40,16 +39,13 @@ class GroupAdapter(private val cont : Context, private val coordinator: Coordina
         filter.clear()
         for (i in list) if (valid(i.groupFullName)) filter.add(i)
         try {
-            filter.sortWith(object : Comparator<Group> {
-
-                override fun compare(p0: Group?, p1: Group?): Int {
-                    var s1 = p0?.groupFullName ?: return -1
-                    var s2 = p1?.groupFullName ?: return 1
-                    if (s1.first().isDigit() && s2.first().isDigit()) return s1.first().compareTo(s2.first())
-                    if (s1.first().isDigit()) return 1
-                    if (s2.first().isDigit()) return -1
-                    return s1.compareTo(s2)
-                }
+            filter.sortWith(Comparator<Group> { p0, p1 ->
+                val s1 = p0?.groupFullName ?: return@Comparator -1
+                val s2 = p1?.groupFullName ?: return@Comparator 1
+                if (s1.first().isDigit() && s2.first().isDigit()) return@Comparator s1.first().compareTo(s2.first())
+                if (s1.first().isDigit()) return@Comparator 1
+                if (s2.first().isDigit()) return@Comparator -1
+                s1.compareTo(s2)
             })
         } catch (e: Exception) {
             Log.e("mytg", "Sorting tim\n${e.message}")

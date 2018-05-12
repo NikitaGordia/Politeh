@@ -7,10 +7,6 @@ import com.nikitagordia.politeh.module.group.model.repository.SourceGroupInterfa
 import com.nikitagordia.politeh.module.group.model.repository.SubscriberGroupInterface
 import com.nikitagordia.politeh.repository.remote.apirozkladorgua.RetrofitImpl
 
-/**
- * Created by nikitagordia on 5/9/18.
- */
-
 class GroupPresenter : SubscriberGroupInterface, GroupPresenterInterface, ViewModel() {
 
     override val groups = MutableLiveData<MetaLiveGroup>()

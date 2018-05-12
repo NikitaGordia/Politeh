@@ -33,7 +33,7 @@ class GroupActivity : AppCompatActivity() {
     var updated = false
     var load = false
 
-    val loadingAnimatorSet = AnimatorSet()
+    private val loadingAnimatorSet = AnimatorSet()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,12 +72,6 @@ class GroupActivity : AppCompatActivity() {
             }
         })
         presenter.updateData(false)
-
-        loading.setOnClickListener {
-            showLoading()
-            //adapter.clear()
-            //presenter.updateData(true)
-        }
 
         updateLoadingView()
     }
