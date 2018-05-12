@@ -26,7 +26,7 @@ class GroupAdapter(private val cont : Context, private val coordinator: Coordina
 
     var query = ""
     private var selectedId = -1
-    private var selectedName = ""
+    private var selectedPos = -1
 
     fun add(nw: List<Group>) {
         val sz = list.size
@@ -53,6 +53,10 @@ class GroupAdapter(private val cont : Context, private val coordinator: Coordina
         } catch (e: Exception) {
             Log.e("mytg", "Sorting tim\n${e.message}")
         }
+        filter.forEachIndexed { index: Int, group: Group ->  if (group.groupId == selectedId) {
+            selectedPos = index
+            return@forEachIndexed
+        } }
         notifyDataSetChanged()
     }
 
@@ -64,6 +68,7 @@ class GroupAdapter(private val cont : Context, private val coordinator: Coordina
     fun clear() {
         list.clear()
         filter.clear()
+        selectedPos = -1
         notifyDataSetChanged()
     }
 
@@ -76,20 +81,16 @@ class GroupAdapter(private val cont : Context, private val coordinator: Coordina
     fun onSaveInstance(b: Bundle) {
         if (selectedId != -1) {
             b.putInt(EXTRA_SELECTED_ID, selectedId)
-            b.putString(EXTRA_SELECTED_NAME, selectedName)
+            if (selectedPos != -1) b.putString(EXTRA_SELECTED_NAME, filter[selectedPos].groupFullName)
         }
     }
 
     fun onRestoreInstance(b: Bundle) {
         val id = b.get(EXTRA_SELECTED_ID) as Int?
+        val name = b.get(EXTRA_SELECTED_NAME) as String?
         if (id != null) {
             selectedId = id
-            notifyDataSetChanged()
-            val name = b.get(EXTRA_SELECTED_NAME) as String?
-            if (name != null) {
-                selectedName = name
-                Snackbar.make(coordinator, resources.getString(R.string.selected, selectedName), Snackbar.LENGTH_INDEFINITE).setAction(R.string.done, {  }).show()
-            }
+            if (name != null) Snackbar.make(coordinator, resources.getString(R.string.selected, name), Snackbar.LENGTH_INDEFINITE).setAction(R.string.done, {  }).show()
         }
     }
 
@@ -115,9 +116,10 @@ class GroupAdapter(private val cont : Context, private val coordinator: Coordina
                 v.setOnClickListener {
                     g.groupId?.apply {
                         selectedId = this
-                        selectedName = g.groupFullName ?: ""
-                        notifyDataSetChanged()
-                        Snackbar.make(coordinator, resources.getString(R.string.selected, selectedName), Snackbar.LENGTH_INDEFINITE).setAction(R.string.done, {  }).show()
+                        if (selectedPos != -1) notifyItemChanged(selectedPos)
+                        selectedPos = pos
+                        notifyItemChanged(pos)
+                        Snackbar.make(coordinator, resources.getString(R.string.selected, g.groupFullName), Snackbar.LENGTH_INDEFINITE).setAction(R.string.done, {  }).show()
                     }
                 }
             }
