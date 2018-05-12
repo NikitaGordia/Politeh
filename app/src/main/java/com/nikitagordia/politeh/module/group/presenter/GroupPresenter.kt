@@ -17,26 +17,31 @@ class GroupPresenter : SubscriberGroupInterface, GroupPresenterInterface, ViewMo
 
     private val source: SourceGroupInterface = RetrofitImpl
 
-    private var loadingStarted: Boolean = false
+    override var state = LoadingDataState.RAW
 
     override fun updateData(force: Boolean) {
         if (force) {
-            if (loadingStarted) source.cancel(this)
+            if (state == LoadingDataState.LOADING) source.cancel(this)
             groups.value = MetaLiveGroup(mutableListOf(), listOf(), 0)
             source.subscribeOnGroup(this)
-            loadingStarted = true
+            state = LoadingDataState.LOADING
         } else {
-            if (!loadingStarted) {
-                loadingStarted = true
+            if (state == LoadingDataState.RAW) {
+                state = LoadingDataState.LOADING
                 source.subscribeOnGroup(this)
             }
         }
     }
 
     override fun onDataGroup(list: List<Group>, percent: Int) {
-        if (percent == -1) {
-            groups.value = MetaLiveGroup(mutableListOf(), list, -1)
-            return
+        when (percent) {
+            -1 -> {
+                state = LoadingDataState.FAILED
+                groups.value = MetaLiveGroup(mutableListOf(), list, -1)
+                return
+            }
+            100 -> state = LoadingDataState.DONE
+            else -> state = LoadingDataState.LOADING
         }
         val all = groups.value?.all ?: mutableListOf()
         all.addAll(list)
