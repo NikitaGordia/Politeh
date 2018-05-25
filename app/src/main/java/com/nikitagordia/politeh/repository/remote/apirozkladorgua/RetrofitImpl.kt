@@ -90,10 +90,7 @@ object RetrofitImpl : SourceGroupInterface, SourceLessonInterface {
     }
 
     private fun checkJob() {
-        if (job?.isActive ?: false) {
-            job?.cancel()
-            groupSub?.onDataGroup(listOf(), -1)
-        }
+        if (job?.isActive ?: false) job?.cancel()
     }
 
     private fun sendLesson(resp: LessonResponse?) = launch(UI) { lessonSub?.onDataLesson(resp?.data)}

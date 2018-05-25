@@ -1,4 +1,4 @@
-package com.nikitagordia.politeh.module.main.model.data
+package com.nikitagordia.politeh.module.main.model.data.remote
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

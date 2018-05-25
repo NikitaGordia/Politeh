@@ -1,4 +1,4 @@
-package com.nikitagordia.politeh.module.main.model.data
+package com.nikitagordia.politeh.module.main.model.data.remote
 
 /**
  * Created by nikitagordia on 5/25/18.

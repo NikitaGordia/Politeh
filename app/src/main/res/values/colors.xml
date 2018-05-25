@@ -11,4 +11,5 @@
 
     <color name="delimiter">#CCCCCC</color>
     <color name="circle_day">#787878</color>
+    <color name="circle_background">#D8D8D8</color>
 </resources>

@@ -8,4 +8,7 @@
     <string name="retry">Retry</string>
     <string name="done">Done</string>
     <string name="selected">Group %1$s was selected</string>
+
+    <string name="one">1</string>
+    <string name="two">2</string>
 </resources>

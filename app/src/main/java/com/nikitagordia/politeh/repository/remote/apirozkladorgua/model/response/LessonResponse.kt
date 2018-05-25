@@ -2,7 +2,7 @@ package com.nikitagordia.politeh.repository.remote.apirozkladorgua.model.respons
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.nikitagordia.politeh.module.main.model.data.Lesson
+import com.nikitagordia.politeh.module.main.model.data.remote.Lesson
 
 /**
  * Created by maxim on 2/16/18.
