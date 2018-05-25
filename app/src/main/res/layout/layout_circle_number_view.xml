@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    
+    <View
+        android:id="@+id/circle"
+        android:layout_margin="6dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:elevation="6dp"
+        android:background="@drawable/circle_day"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/number"
+        android:text="1"
+        android:layout_gravity="center"
+        android:elevation="7dp"
+        android:textColor="@android:color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</FrameLayout>
