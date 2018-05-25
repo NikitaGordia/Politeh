@@ -4,5 +4,5 @@ interface SourceGroupInterface {
 
     fun subscribeOnGroup(sub : SubscriberGroupInterface)
 
-    fun cancel(sub : SubscriberGroupInterface)
+    fun cancelGroup(sub : SubscriberGroupInterface)
 }

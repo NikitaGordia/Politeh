@@ -1,4 +1,4 @@
-package com.nikitagordia.politeh.repository.remote.apirozkladorgua.model
+package com.nikitagordia.politeh.repository.remote.apirozkladorgua.model.response
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

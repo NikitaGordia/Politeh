@@ -17,7 +17,7 @@ class GroupPresenter : SubscriberGroupInterface, GroupPresenterInterface, ViewMo
 
     override fun updateData(force: Boolean) {
         if (force) {
-            if (state == LoadingDataState.LOADING) source.cancel(this)
+            if (state == LoadingDataState.LOADING) source.cancelGroup(this)
             groups.value = MetaLiveGroup(mutableListOf(), listOf(), 0)
             source.subscribeOnGroup(this)
             state = LoadingDataState.LOADING
@@ -40,7 +40,7 @@ class GroupPresenter : SubscriberGroupInterface, GroupPresenterInterface, ViewMo
             else -> state = LoadingDataState.LOADING
         }
         val all = groups.value?.all ?: mutableListOf()
-        all.addAll(list)
+        all += list
         val res = groups.value ?: MetaLiveGroup(all, list, percent)
         res.intermediate = list
         res.percent = percent

@@ -30,8 +30,8 @@ class GroupActivity : AppCompatActivity() {
     private lateinit var presenter: GroupPresenterInterface
     private lateinit var bundle: Bundle
 
-    var updated = false
-    var load = false
+    private var updated = false
+    private var load = false
 
     private val loadingAnimatorSet = AnimatorSet()
 

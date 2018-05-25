@@ -1,5 +1,6 @@
-package com.nikitagordia.politeh.repository.remote.apirozkladorgua.model
+package com.nikitagordia.politeh.repository.remote.apirozkladorgua.model.service
 
+import com.nikitagordia.politeh.repository.remote.apirozkladorgua.model.response.GroupResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
