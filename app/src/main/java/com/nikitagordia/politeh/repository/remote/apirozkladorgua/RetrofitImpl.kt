@@ -1,5 +1,6 @@
 package com.nikitagordia.politeh.repository.remote.apirozkladorgua
 
+import android.util.Log
 import com.google.gson.Gson
 import com.nikitagordia.politeh.module.group.model.repository.SourceGroupInterface
 import com.nikitagordia.politeh.module.group.model.repository.SubscriberGroupInterface
@@ -46,14 +47,11 @@ object RetrofitImpl : SourceGroupInterface, SourceLessonInterface {
                     if (groupSub == null) return@launch
                     yield()
                     resp = groupService.getGroups(createInterval(GROUP_PACKAGE_LIMIT, offset)).execute().body()
-                    resp?.meta?.offset = (offset + GROUP_PACKAGE_LIMIT)
                     offset += GROUP_PACKAGE_LIMIT
                     sendGroups(resp, offset, all)
                 }
             } catch (e: IOException) {
                 sendGroups(null, -1, -1)
-            } finally {
-                groupSub = null
             }
         }
     }
@@ -76,8 +74,6 @@ object RetrofitImpl : SourceGroupInterface, SourceLessonInterface {
                 } else throw IOException()
             } catch (e: IOException) {
                 sendLesson(null)
-            } finally {
-                lessonSub = null
             }
         }
     }
@@ -93,7 +89,7 @@ object RetrofitImpl : SourceGroupInterface, SourceLessonInterface {
         if (job?.isActive ?: false) job?.cancel()
     }
 
-    private fun sendLesson(resp: LessonResponse?) = launch(UI) { lessonSub?.onDataLesson(resp?.data)}
+    private fun sendLesson(resp: LessonResponse?) = launch(UI) { lessonSub?.onDataLesson(resp?.data); lessonSub = null }
 
     private fun sendGroups(resp: GroupResponse?, offset: Int, all: Int) {
         launch(UI) {

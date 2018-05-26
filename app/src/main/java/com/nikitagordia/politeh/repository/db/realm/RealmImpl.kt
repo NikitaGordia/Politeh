@@ -4,12 +4,11 @@ import android.content.Context
 import android.util.Log
 import com.nikitagordia.politeh.module.main.model.data.db.LessonDB
 import com.nikitagordia.politeh.module.main.model.data.remote.Lesson
-import com.nikitagordia.politeh.module.main.model.repository.MutableSourceLessonInterface
+import com.nikitagordia.politeh.module.main.model.repository.LocalSourceLessonInterface
 import com.nikitagordia.politeh.module.main.model.repository.SubscribeLessonInterface
 import com.nikitagordia.politeh.util.RealmMaper
 import io.realm.Realm
 import io.realm.RealmConfiguration
-import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -18,14 +17,14 @@ import kotlinx.coroutines.experimental.launch
  * Created by nikitagordia on 5/25/18.
  */
 
-object RealmImpl : MutableSourceLessonInterface {
+object RealmImpl : LocalSourceLessonInterface {
 
     private lateinit var realm: Realm
 
     private var lessonSub: SubscribeLessonInterface? = null
     private var job: Job? = null
 
-    fun init(context: Context) { //TODO applicationContext()
+    override fun init(context: Context) {
         Realm.init(context)
         realm = Realm.getInstance(RealmConfiguration.Builder().build())
     }

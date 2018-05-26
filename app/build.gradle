@@ -1,11 +1,8 @@
 apply plugin: 'com.android.application'
-apply plugin: 'realm-android'
-
-apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 26
@@ -38,6 +35,7 @@ dependencies {
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'com.github.NikitaGordia:Cosin:1.1.0'
 
     //Networking
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'

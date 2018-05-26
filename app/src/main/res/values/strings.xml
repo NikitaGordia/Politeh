@@ -11,4 +11,7 @@
 
     <string name="one">1</string>
     <string name="two">2</string>
+
+    <string name="loading_timetable">Timetable loading...</string>
+    <string name="welcome_student">Welcome</string>
 </resources>

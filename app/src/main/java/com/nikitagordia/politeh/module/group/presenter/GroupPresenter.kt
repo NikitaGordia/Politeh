@@ -2,6 +2,7 @@ package com.nikitagordia.politeh.module.group.presenter
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.util.Log
 import com.nikitagordia.politeh.module.group.model.data.Group
 import com.nikitagordia.politeh.module.group.model.repository.SourceGroupInterface
 import com.nikitagordia.politeh.module.group.model.repository.SubscriberGroupInterface

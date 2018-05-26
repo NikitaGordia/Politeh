@@ -1,6 +1,8 @@
 package com.nikitagordia.politeh.module.group.view.list
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.support.design.widget.CoordinatorLayout
@@ -14,9 +16,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.nikitagordia.politeh.R
 import com.nikitagordia.politeh.module.group.model.data.Group
+import com.nikitagordia.politeh.module.main.view.MainActivity
 import com.nikitagordia.politeh.util.HashColor
+import com.nikitagordia.politeh.util.SharedPreferencesManager
 
-class GroupAdapter(private val cont : Context, private val coordinator: CoordinatorLayout, private val resources: Resources) : RecyclerView.Adapter<GroupAdapter.GroupHolder>(){
+class GroupAdapter(private val cont : Activity, private val coordinator: CoordinatorLayout, private val resources: Resources) : RecyclerView.Adapter<GroupAdapter.GroupHolder>(){
 
     private val EXTRA_SELECTED_ID = "com.nikitagordia.politeh.module.group.view.list.GroupAdapter.selectedId"
     private val EXTRA_SELECTED_NAME = "com.nikitagordia.politeh.module.group.view.list.GroupAdapter.selectedName"
@@ -116,7 +120,11 @@ class GroupAdapter(private val cont : Context, private val coordinator: Coordina
                         if (selectedPos != -1) notifyItemChanged(selectedPos)
                         selectedPos = pos
                         notifyItemChanged(pos)
-                        Snackbar.make(coordinator, resources.getString(R.string.selected, g.groupFullName), Snackbar.LENGTH_INDEFINITE).setAction(R.string.done, {  }).show()
+                        Snackbar.make(coordinator, resources.getString(R.string.selected, g.groupFullName), Snackbar.LENGTH_INDEFINITE).setAction(R.string.done, {
+                            SharedPreferencesManager.setGroupId(selectedId, cont)
+                            cont.finish()
+                            cont.startActivity(Intent(cont, MainActivity::class.java))
+                        }).show()
                     }
                 }
             }

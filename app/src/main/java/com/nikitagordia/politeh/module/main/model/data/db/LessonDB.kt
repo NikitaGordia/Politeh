@@ -8,7 +8,7 @@ import io.realm.annotations.PrimaryKey
  * Created by maxim on 2/16/18.
  */
 
-class LessonDB() : RealmObject() {
+open class LessonDB : RealmObject() {
 
     @PrimaryKey
     var lessonId: String? = null

@@ -7,7 +7,7 @@ import io.realm.annotations.PrimaryKey
  * Created by nikitagordia on 2/23/18.
  */
 
-class RoomDB : RealmObject() {
+open class RoomDB : RealmObject() {
 
     @PrimaryKey
     var roomId: String? = null
