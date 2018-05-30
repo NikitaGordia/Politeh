@@ -1,11 +1,11 @@
 package com.nikitagordia.politeh.module.main.view
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.util.Log
 import com.nikitagordia.politeh.R
@@ -13,8 +13,9 @@ import com.nikitagordia.politeh.module.group.view.GroupActivity
 import com.nikitagordia.politeh.module.main.presenter.MainPresenter
 import com.nikitagordia.politeh.module.main.presenter.MainPresenterInterface
 import com.nikitagordia.politeh.module.main.view.fragment.LoadingFragment
-import com.nikitagordia.politeh.module.main.view.fragment.TimeTable
+import com.nikitagordia.politeh.module.main.view.fragment.TimeTableFragment
 import com.nikitagordia.politeh.util.SharedPreferencesManager
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +24,9 @@ class MainActivity : AppCompatActivity() {
     private var loading = false
 
     private val loadingFragment = LoadingFragment.getInstance()
-    private val timeTableFragment = TimeTable.getInstance()
+    private val timeTableFragment = TimeTableFragment.getInstance()
+
+    private var id = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +39,18 @@ class MainActivity : AppCompatActivity() {
 
         presenter = ViewModelProviders.of(this).get(MainPresenter::class.java)
 
-        presenter.initLocalDB(applicationContext)
+        id = SharedPreferencesManager.getGroupId(this)
+        presenter.subscribeOnLesson(id)
+
         presenter.lessons.observe(this, Observer {
-            updateFragment(it != null)
+            if (it != null) {
+                if (it.list != null && !it.showLoading) updateFragment(true)
+                if (it.list == null && it.showLoading) updateFragment(false)
+                if (it.list != null && it.showLoading) {
+                    updateFragment(false)
+                    Snackbar.make(coordinator, R.string.connection_error, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, { presenter.subscribeOnLesson(id) }).show()
+                }
+            }
         })
     }
 

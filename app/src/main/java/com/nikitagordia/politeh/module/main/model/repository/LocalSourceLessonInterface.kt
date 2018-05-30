@@ -10,6 +10,4 @@ import com.nikitagordia.politeh.module.main.model.data.remote.Lesson
 interface LocalSourceLessonInterface : SourceLessonInterface{
 
     fun updateData(list: List<Lesson>)
-
-    fun init(context: Context)
 }

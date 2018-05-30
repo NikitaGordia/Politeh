@@ -19,15 +19,10 @@ import kotlinx.coroutines.experimental.launch
 
 object RealmImpl : LocalSourceLessonInterface {
 
-    private lateinit var realm: Realm
+    private val realm = Realm.getInstance(RealmConfiguration.Builder().build())
 
     private var lessonSub: SubscribeLessonInterface? = null
     private var job: Job? = null
-
-    override fun init(context: Context) {
-        Realm.init(context)
-        realm = Realm.getInstance(RealmConfiguration.Builder().build())
-    }
 
     override fun updateData(list: List<Lesson>) {
         realm.executeTransactionAsync { realm -> realm.deleteAll(); list.forEach { realm.insertOrUpdate(RealmMaper.map(it)) } }

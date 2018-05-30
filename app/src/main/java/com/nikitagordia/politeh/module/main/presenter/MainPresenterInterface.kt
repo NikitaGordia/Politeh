@@ -11,7 +11,9 @@ import com.nikitagordia.politeh.module.main.model.data.remote.Lesson
 
 interface MainPresenterInterface {
 
-    val lessons: MutableLiveData<List<Lesson>>
+    val lessons: MutableLiveData<LessonsHolder>
 
-    fun initLocalDB(context: Context)
+    fun subscribeOnLesson(id: Int)
 }
+
+class LessonsHolder(val list: List<Lesson>?, val showLoading: Boolean)

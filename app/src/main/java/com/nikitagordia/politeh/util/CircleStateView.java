@@ -19,11 +19,10 @@ import com.nikitagordia.politeh.R;
 public class CircleStateView extends FrameLayout {
 
     private static final float SHADOW_PERCENT = 0.03f;
-    private static final float FONT_PERCENT = 0.15f;
-    private static final float FONT_PERCENT_DELTA = 0.87f;
+    private static final float FONT_PERCENT_DELTA = 0.8f;
 
     private boolean isFirst = true, isCreated;
-    private float a, b, c, halfHeight, small, normal, big, shadow, shadowPadding;
+    private float a, b, c, halfHeight, small, normal, big, shadow, shadowPadding, density;
 
     private TextView first, second;
 
@@ -32,6 +31,7 @@ public class CircleStateView extends FrameLayout {
         View v = inflate(getContext(), R.layout.layout_circle_state_view, this);
         first = (TextView) v.findViewById(R.id.first);
         second = (TextView) v.findViewById(R.id.second);
+        density = context.getResources().getDisplayMetrics().density;
 
         first.setText(R.string.one);
         second.setText(R.string.two);
@@ -85,10 +85,14 @@ public class CircleStateView extends FrameLayout {
 
         if ( Build.VERSION.SDK_INT >= 21) v.setElevation(shadow + shadow * ((r - small) / (big - small)));
 
-        v.setTextSize(getH() * FONT_PERCENT + FONT_PERCENT_DELTA * (r - small));
+        v.setTextSize(dpToPx(FONT_PERCENT_DELTA * (r - small)));
 
         v.setX(x - r);
         v.setY(y - r);
+    }
+
+    private float dpToPx(float dp) {
+        return dp * density;
     }
 
     public void updateProp() {
